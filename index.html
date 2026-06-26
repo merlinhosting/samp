@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Jota Hosting - Manutenção</title>
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial, sans-serif;
+}
+
+body{
+    background:#0d0d0d;
+    color:#fff;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    height:100vh;
+    text-align:center;
+}
+
+.container{
+    max-width:600px;
+    padding:30px;
+}
+
+.logo{
+    font-size:50px;
+    font-weight:bold;
+    color:#e60000;
+    margin-bottom:10px;
+}
+
+.hosting{
+    color:#fff;
+}
+
+h1{
+    font-size:32px;
+    margin-bottom:15px;
+}
+
+p{
+    color:#bdbdbd;
+    font-size:18px;
+    line-height:1.6;
+}
+
+.status{
+    margin-top:25px;
+    display:inline-block;
+    background:#e60000;
+    padding:12px 25px;
+    border-radius:8px;
+    font-weight:bold;
+}
+
+.loader{
+    margin:30px auto;
+    width:60px;
+    height:60px;
+    border:5px solid #333;
+    border-top:5px solid #e60000;
+    border-radius:50%;
+    animation:spin 1s linear infinite;
+}
+
+@keyframes spin{
+    100%{
+        transform:rotate(360deg);
+    }
+}
+</style>
+</head>
+<body>
+
+<div class="container">
+    <div class="logo">JOTA <span class="hosting">HOSTING</span></div>
+
+    <div class="loader"></div>
+
+    <h1>Site em Manutenção</h1>
+
+    <p>
+        Estamos realizando melhorias em nossos serviços para oferecer uma experiência ainda melhor.
+        Voltaremos em breve.
+    </p>
+
+    <div class="status">⚠️ Manutenção em andamento</div>
+</div>
+
+</body>
+</html>
