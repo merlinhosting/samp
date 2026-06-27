@@ -1,0 +1,1260 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Hospedagem dedicada para servidores SA-MP e Open.MP com baixa latência no Brasil. Planos a partir de R$7/mês, Anti-DDoS incluso e ativação em até 30 minutos.">
+<meta name="referrer" content="strict-origin-when-cross-origin">
+<title>Merlin Hosting — Hospedagem SA-MP & Open.MP</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+
+:root {
+  --bg: #0a0a0f;
+  --surface: #111118;
+  --border: #1e1e2e;
+  --green: #EC5D6A;
+  --green-dim: #B84852;
+  --yellow: #ffd600;
+  --text: #e8e8f0;
+  --muted: #6b6b80;
+  --card-hover: #16161f;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body { background: var(--bg); color: var(--text); font-family: 'Space Grotesk', sans-serif; overflow-x: hidden; }
+
+/* ── NAV ── */
+nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 200;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0 40px; height: 64px;
+  background: rgba(10,10,15,0.92);
+  backdrop-filter: blur(16px);
+  border-bottom: 1px solid var(--border);
+}
+
+/* logo com monograma */
+.brand { display: flex; align-items: center; gap: 11px; text-decoration: none; }
+.brand-mark {
+  width: 32px; height: 32px; border-radius: 9px; flex-shrink: 0;
+  background: linear-gradient(135deg, var(--green) 0%, #B84852 100%);
+  display: flex; align-items: center; justify-content: center;
+  position: relative; overflow: hidden;
+  box-shadow: 0 0 0 1px rgba(236,93,106,0.25), 0 4px 14px rgba(236,93,106,0.22);
+}
+.brand-mark::after {
+  content: ''; position: absolute; top: -60%; left: -20%; width: 60%; height: 220%;
+  background: rgba(255,255,255,0.18); transform: rotate(20deg);
+}
+.brand-mark svg { width: 17px; height: 17px; position: relative; z-index: 1; }
+.brand-name {
+  font-family: 'JetBrains Mono', monospace; font-weight: 700; font-size: 17px;
+  letter-spacing: -0.3px; color: var(--text); line-height: 1.1;
+  display: flex; flex-direction: column;
+}
+.brand-name b { color: var(--text); font-weight: 700; }
+.brand-name .brand-sub {
+  font-family: 'Space Grotesk', sans-serif; font-weight: 500; font-size: 10px;
+  letter-spacing: 0.14em; text-transform: uppercase; color: var(--green); margin-top: 1px;
+}
+
+/* menu hambúrguer único */
+.menu-toggle {
+  display: flex; align-items: center; gap: 9px;
+  background: var(--surface); border: 1px solid var(--border);
+  color: var(--text); font-size: 13px; font-weight: 600;
+  padding: 9px 16px; border-radius: 9px; cursor: pointer;
+  transition: border-color 0.2s, background 0.2s;
+}
+.menu-toggle:hover { border-color: var(--green); background: rgba(236,93,106,0.05); }
+.menu-toggle .bars { display: flex; flex-direction: column; gap: 3px; width: 16px; }
+.menu-toggle .bars span { display: block; height: 2px; background: currentColor; border-radius: 1px; transition: transform 0.2s, opacity 0.2s; }
+.menu-toggle.open .bars span:nth-child(1) { transform: translateY(5px) rotate(45deg); }
+.menu-toggle.open .bars span:nth-child(2) { opacity: 0; }
+.menu-toggle.open .bars span:nth-child(3) { transform: translateY(-5px) rotate(-45deg); }
+
+.menu-panel {
+  position: fixed; top: 64px; right: 24px; z-index: 300;
+  background: #14141d; border: 1px solid var(--border); border-radius: 14px;
+  width: 320px; max-width: calc(100vw - 32px);
+  padding: 10px; box-shadow: 0 16px 48px rgba(0,0,0,0.5);
+  opacity: 0; transform: translateY(-8px) scale(0.98); pointer-events: none;
+  transition: opacity 0.18s, transform 0.18s;
+  max-height: calc(100vh - 90px); overflow-y: auto;
+}
+.menu-panel.open { opacity: 1; transform: translateY(0) scale(1); pointer-events: auto; }
+
+.menu-section-label {
+  font-family: 'JetBrains Mono', monospace; font-size: 10px; font-weight: 700;
+  letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted);
+  padding: 10px 12px 6px;
+}
+.menu-panel a.menu-link {
+  display: flex; align-items: center; gap: 12px;
+  color: var(--muted); text-decoration: none; font-size: 14px; font-weight: 600;
+  padding: 11px 12px; border-radius: 9px;
+  transition: background 0.15s, color 0.15s;
+}
+.menu-panel a.menu-link:hover { background: rgba(255,255,255,0.05); color: var(--text); }
+.menu-link .ml-icon { font-size: 17px; width: 22px; text-align: center; flex-shrink: 0; }
+.menu-link .ml-text { display: flex; flex-direction: column; flex: 1; }
+.menu-link .ml-name { font-weight: 600; color: var(--text); font-size: 14px; }
+.menu-link .ml-desc { font-size: 11px; color: var(--muted); font-weight: 500; margin-top: 1px; }
+.ml-badge {
+  font-size: 9px; font-weight: 700; letter-spacing: 0.07em;
+  padding: 2px 7px; border-radius: 100px; text-transform: uppercase; flex-shrink: 0;
+}
+.ml-badge.available { background: rgba(236,93,106,0.12); color: var(--green); }
+.ml-badge.soon { background: rgba(255,214,0,0.1); color: var(--yellow); }
+.menu-divider { height: 1px; background: var(--border); margin: 8px 4px; }
+
+.menu-overlay {
+  position: fixed; inset: 0; z-index: 250; background: rgba(0,0,0,0.4);
+  opacity: 0; pointer-events: none; transition: opacity 0.18s;
+}
+.menu-overlay.open { opacity: 1; pointer-events: auto; }
+
+
+/* ── HERO ── */
+.hero {
+  min-height: 100vh; display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  text-align: center; padding: 120px 24px 80px;
+  position: relative; overflow: hidden;
+}
+.hero::before {
+  content: ''; position: absolute; top: -200px; left: 50%;
+  transform: translateX(-50%); width: 700px; height: 700px;
+  background: radial-gradient(circle, rgba(236,93,106,0.08) 0%, transparent 70%);
+  pointer-events: none;
+}
+.hero-badge {
+  display: inline-flex; align-items: center; gap: 8px;
+  background: rgba(236,93,106,0.08); border: 1px solid rgba(236,93,106,0.2);
+  color: var(--green); font-size: 12px; font-weight: 600;
+  letter-spacing: 0.08em; text-transform: uppercase;
+  padding: 6px 16px; border-radius: 100px; margin-bottom: 32px;
+}
+.dot { width: 6px; height: 6px; background: var(--green); border-radius: 50%; animation: pulse 2s infinite; }
+@keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.3} }
+.hero h1 {
+  font-size: clamp(42px, 7vw, 78px); font-weight: 700;
+  line-height: 1.05; letter-spacing: -2px; margin-bottom: 20px; color: var(--text);
+}
+.hero h1 em { font-style: normal; color: var(--green); }
+.hero p { font-size: 17px; color: var(--muted); max-width: 480px; line-height: 1.7; margin-bottom: 40px; }
+.hero-actions { display: flex; gap: 12px; flex-wrap: wrap; justify-content: center; }
+.btn-primary { background: var(--green); color: #000; font-weight: 700; font-size: 15px; padding: 14px 32px; border-radius: 8px; text-decoration: none; transition: background 0.2s, transform 0.15s; display: inline-block; }
+.btn-primary:hover { background: var(--green-dim); transform: translateY(-2px); }
+.btn-secondary { background: transparent; color: var(--text); font-weight: 600; font-size: 15px; padding: 14px 32px; border-radius: 8px; border: 1px solid var(--border); text-decoration: none; transition: border-color 0.2s, background 0.2s; display: inline-block; }
+.btn-secondary:hover { border-color: var(--muted); background: var(--surface); }
+
+/* ── BOTÃO WHATSAPP (CTA grande) ── */
+.btn-whatsapp {
+  display: inline-flex; align-items: center; gap: 10px;
+  background: linear-gradient(135deg, #25D366, #1da851);
+  color: #fff; font-weight: 700; font-size: 15px;
+  padding: 15px 30px 15px 24px; border-radius: 100px;
+  text-decoration: none;
+  box-shadow: 0 4px 24px rgba(37,211,102,0.35);
+  transition: box-shadow 0.2s, transform 0.15s;
+}
+.btn-whatsapp svg { width: 20px; height: 20px; flex-shrink: 0; }
+.btn-whatsapp:hover { box-shadow: 0 6px 30px rgba(37,211,102,0.55); transform: translateY(-2px); }
+
+/* ── STATS ── */
+.stats { display: grid; grid-template-columns: repeat(4,1fr); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+.stat-item { padding: 36px 24px; text-align: center; border-right: 1px solid var(--border); }
+.stat-item:last-child { border-right: none; }
+.stat-num { font-family: 'JetBrains Mono', monospace; font-size: 36px; font-weight: 700; color: var(--green); line-height: 1; margin-bottom: 6px; }
+.stat-label { font-size: 13px; color: var(--muted); font-weight: 500; }
+
+/* ── SECTION ── */
+.section { max-width: 1100px; margin: 0 auto; padding: 96px 24px; }
+.section-label { font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase; color: var(--green); margin-bottom: 12px; }
+.section-title { font-size: clamp(28px, 4vw, 40px); font-weight: 700; letter-spacing: -1px; margin-bottom: 8px; }
+.section-sub { color: var(--muted); font-size: 15px; margin-bottom: 56px; }
+
+/* ── CATEGORY TABS ── */
+.cat-tabs { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 28px; }
+.cat-tab {
+  display: flex; align-items: center; gap: 8px;
+  padding: 10px 20px; border-radius: 8px;
+  border: 1px solid var(--border); background: var(--surface);
+  color: var(--muted); font-size: 14px; font-weight: 600;
+  cursor: pointer; transition: all 0.2s;
+}
+.cat-tab:hover { border-color: var(--muted); color: var(--text); }
+.cat-tab.active { background: rgba(236,93,106,0.08); border-color: var(--green); color: var(--green); }
+.cat-tab .ct-badge { font-size: 9px; font-weight: 700; letter-spacing: 0.07em; padding: 2px 7px; border-radius: 100px; text-transform: uppercase; }
+.ct-badge.active-tag { background: rgba(236,93,106,0.15); color: var(--green); }
+.ct-badge.soon-tag { background: rgba(255,214,0,0.1); color: var(--yellow); }
+
+/* category panels */
+.cat-panel { display: none; }
+.cat-panel.visible { display: block; }
+
+/* soon panel */
+.soon-panel {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: 14px; padding: 60px 40px;
+  text-align: center;
+}
+.soon-icon { font-size: 48px; margin-bottom: 20px; }
+.soon-panel h3 { font-size: 22px; font-weight: 700; margin-bottom: 10px; }
+.soon-panel p { color: var(--muted); font-size: 15px; max-width: 380px; margin: 0 auto 28px; line-height: 1.6; }
+.soon-notify {
+  display: inline-flex; align-items: center; gap: 8px;
+  background: rgba(255,214,0,0.08); border: 1px solid rgba(255,214,0,0.2);
+  color: var(--yellow); padding: 8px 18px; border-radius: 100px;
+  font-size: 13px; font-weight: 600;
+}
+
+/* ── PLANOS ── */
+.plans-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 1px; background: var(--border); border: 1px solid var(--border); border-radius: 14px; overflow: hidden; margin-bottom: 1px; }
+.plans-row2 { display: grid; grid-template-columns: repeat(2,1fr); gap: 1px; background: var(--border); border: 1px solid var(--border); border-top: none; overflow: hidden; }
+.plans-row3 { display: grid; grid-template-columns: repeat(3,1fr); gap: 1px; background: var(--border); border: 1px solid var(--border); border-top: none; border-radius: 0 0 14px 14px; overflow: hidden; }
+
+.plan-card { background: var(--surface); padding: 30px; position: relative; transition: background 0.2s; }
+.plan-card:hover { background: var(--card-hover); }
+.plan-card.featured { background: #0d1f14; }
+.plan-card.featured:hover { background: #0f2418; }
+.plan-tag { display: inline-block; background: var(--yellow); color: #000; font-size: 9px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; padding: 3px 10px; border-radius: 100px; margin-bottom: 14px; }
+.plan-slots { font-size: 12px; font-weight: 600; color: var(--muted); letter-spacing: 0.05em; text-transform: uppercase; margin-bottom: 6px; }
+.plan-price { font-family: 'JetBrains Mono', monospace; font-size: 40px; font-weight: 700; color: var(--text); line-height: 1; margin-bottom: 4px; }
+.plan-price sup { font-size: 17px; vertical-align: super; color: var(--muted); font-weight: 400; }
+.plan-period { font-size: 12px; color: var(--muted); margin-bottom: 22px; }
+.plan-features { list-style: none; margin-bottom: 24px; }
+.plan-features li { display: flex; align-items: center; gap: 8px; font-size: 13px; color: var(--muted); padding: 4px 0; }
+.plan-features li::before { content: '✓'; color: var(--green); font-weight: 700; font-size: 12px; flex-shrink: 0; }
+.plan-btn {
+  display: block; text-align: center; background: transparent; color: var(--text);
+  font-weight: 600; font-size: 14px; padding: 11px 20px;
+  border-radius: 7px; border: 1px solid var(--border); text-decoration: none;
+  transition: border-color 0.2s, background 0.2s, color 0.2s; cursor: pointer;
+  font-family: 'Space Grotesk', sans-serif; width: 100%;
+}
+.plan-btn:hover { border-color: var(--green); color: var(--green); background: rgba(236,93,106,0.04); }
+.plan-card.featured .plan-btn { background: var(--green); color: #000; border-color: var(--green); font-weight: 700; }
+.plan-card.featured .plan-btn:hover { background: var(--green-dim); border-color: var(--green-dim); }
+#cat-samp .plan-btn { background: var(--green); color: #000; border-color: var(--green); font-weight: 700; }
+#cat-samp .plan-btn:hover { background: var(--green-dim); border-color: var(--green-dim); }
+.plan-empty { background: var(--surface); padding: 30px; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; gap: 10px; }
+.plan-empty p { font-size: 13px; color: var(--muted); }
+
+/* ── MODAL PEDIDO ── */
+.modal-overlay {
+  display: none; position: fixed; inset: 0; z-index: 500;
+  background: rgba(0,0,0,0.7); backdrop-filter: blur(8px);
+  align-items: flex-start; justify-content: center;
+  padding: 20px; overflow-y: auto;
+}
+.modal-overlay.open { display: flex; }
+.modal {
+  background: #16161f; border: 1px solid var(--border); border-radius: 16px;
+  padding: 36px; width: 100%; max-width: 480px; position: relative;
+  animation: modalIn 0.2s ease; margin: auto;
+}
+@keyframes modalIn { from { opacity:0; transform: scale(0.96) translateY(10px); } to { opacity:1; transform: scale(1) translateY(0); } }
+.modal-close {
+  position: absolute; top: 16px; right: 16px; background: none; border: none;
+  color: var(--muted); font-size: 20px; cursor: pointer; line-height: 1;
+  padding: 4px 8px; border-radius: 6px; transition: background 0.15s;
+}
+.modal-close:hover { background: rgba(255,255,255,0.05); color: var(--text); }
+.modal h3 { font-size: 20px; font-weight: 700; margin-bottom: 4px; }
+.modal-plan-info { font-size: 13px; color: var(--muted); margin-bottom: 24px; }
+.modal-plan-info strong { color: var(--green); }
+
+.form-group { margin-bottom: 16px; }
+.form-group label { display: block; font-size: 12px; font-weight: 600; color: var(--muted); letter-spacing: 0.04em; text-transform: uppercase; margin-bottom: 6px; }
+.form-group input, .form-group select, .form-group textarea {
+  width: 100%; background: #0e0e16; border: 1px solid var(--border);
+  border-radius: 8px; padding: 11px 14px; color: var(--text);
+  font-family: 'Space Grotesk', sans-serif; font-size: 14px;
+  transition: border-color 0.2s; outline: none;
+}
+.form-group input:focus, .form-group select:focus, .form-group textarea:focus { border-color: var(--green); }
+.form-group select { cursor: pointer; }
+.form-group textarea { resize: vertical; min-height: 72px; }
+
+.modal-actions { display: flex; gap: 10px; margin-top: 24px; }
+.modal-actions .btn-primary { flex: 1; padding: 13px; font-size: 14px; border: none; cursor: pointer; font-family: 'Space Grotesk', sans-serif; text-align: center; }
+.modal-actions .btn-secondary { padding: 13px 20px; font-size: 14px; cursor: pointer; font-family: 'Space Grotesk', sans-serif; }
+
+.wpp-preview {
+  margin-top: 16px; background: #0e0e16; border: 1px solid var(--border);
+  border-radius: 8px; padding: 12px 14px; font-size: 12px; color: var(--muted);
+  line-height: 1.5; display: none;
+}
+.wpp-preview.show { display: block; }
+.wpp-preview-label { font-size: 10px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--green); margin-bottom: 6px; }
+
+/* ── PIX QR CODE ── */
+.pix-box {
+  margin-top: 16px; background: #0e0e16; border: 1px solid rgba(236,93,106,0.25);
+  border-radius: 12px; padding: 20px; display: none; text-align: center;
+}
+.pix-box-label {
+  font-size: 10px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase;
+  color: var(--green); margin-bottom: 14px; display: flex; align-items: center;
+  justify-content: center; gap: 6px;
+}
+.pix-box-label::before, .pix-box-label::after {
+  content: ''; flex: 1; height: 1px; background: rgba(236,93,106,0.18);
+}
+.pix-qr-wrap {
+  background: #fff; border-radius: 10px; display: inline-block;
+  padding: 12px; margin-bottom: 14px; box-shadow: 0 0 24px rgba(236,93,106,0.15);
+}
+.pix-qr-wrap canvas { display: block; }
+.pix-value {
+  font-family: 'JetBrains Mono', monospace; font-size: 22px; font-weight: 700;
+  color: var(--green); margin-bottom: 4px;
+}
+.pix-copy-btn {
+  display: inline-flex; align-items: center; gap: 7px;
+  background: rgba(236,93,106,0.08); border: 1px solid rgba(236,93,106,0.25);
+  color: var(--green); font-size: 12px; font-weight: 700; letter-spacing: 0.04em;
+  padding: 8px 18px; border-radius: 100px; cursor: pointer;
+  transition: background 0.2s, border-color 0.2s; font-family: 'Space Grotesk', sans-serif;
+}
+.pix-copy-btn:hover { background: rgba(236,93,106,0.15); border-color: rgba(236,93,106,0.5); }
+.pix-copy-btn.copied { color: #fff; background: var(--green); border-color: var(--green); }
+.pix-info {
+  margin-top: 10px; font-size: 11px; color: var(--muted); line-height: 1.5;
+}
+.pix-steps {
+  margin-top: 12px; background: rgba(236,93,106,0.04); border-radius: 8px;
+  padding: 10px 14px; text-align: left;
+}
+.pix-steps p { font-size: 11px; color: var(--muted); margin-bottom: 2px; }
+.pix-steps p strong { color: var(--text); }
+
+/* ── DIFERENCIAIS ── */
+.diff-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 16px; }
+.diff-card {
+  background: var(--surface); border: 1px solid var(--border); border-radius: 12px;
+  padding: 24px; position: relative; overflow: hidden;
+  transition: border-color 0.25s, transform 0.25s, background 0.25s;
+}
+.diff-card::before {
+  content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px;
+  background: linear-gradient(90deg, transparent, var(--green), transparent);
+  opacity: 0; transition: opacity 0.25s;
+}
+.diff-card:hover { border-color: rgba(236,93,106,0.35); transform: translateY(-3px); background: var(--card-hover); }
+.diff-card:hover::before { opacity: 1; }
+.diff-top { display: flex; align-items: center; justify-content: space-between; margin-bottom: 18px; }
+.diff-icon-box {
+  width: 44px; height: 44px; display: flex; align-items: center; justify-content: center;
+  font-size: 19px; border-radius: 10px;
+  background: rgba(236,93,106,0.08); border: 1px solid rgba(236,93,106,0.2);
+}
+.diff-idx {
+  font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 700;
+  color: var(--muted); opacity: 0.5; letter-spacing: 0.05em;
+}
+.diff-card h3 { font-size: 15px; font-weight: 600; margin-bottom: 6px; }
+.diff-card p { font-size: 13px; color: var(--muted); line-height: 1.6; }
+
+/* ── AVALIAÇÕES ── */
+.reviews-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 16px; }
+.review-card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 24px; transition: border-color 0.2s; }
+.review-card:hover { border-color: rgba(255,214,0,0.25); }
+.review-stars { color: var(--yellow); font-size: 14px; margin-bottom: 12px; letter-spacing: 2px; }
+.review-text { font-size: 14px; color: var(--text); line-height: 1.6; margin-bottom: 16px; font-style: italic; }
+.review-author { display: flex; align-items: center; gap: 10px; }
+.review-avatar { width: 34px; height: 34px; border-radius: 50%; background: linear-gradient(135deg, var(--green), var(--green-dim)); display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 13px; color: #000; flex-shrink: 0; }
+.review-name { font-size: 13px; font-weight: 600; }
+.review-date { font-size: 11px; color: var(--muted); }
+.reviews-summary { display: flex; align-items: center; gap: 24px; background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 24px 32px; margin-bottom: 32px; }
+.reviews-score { font-family: 'JetBrains Mono', monospace; font-size: 52px; font-weight: 700; color: var(--green); line-height: 1; }
+.reviews-right {}
+.reviews-stars-big { font-size: 20px; color: var(--yellow); letter-spacing: 3px; }
+.reviews-count { font-size: 13px; color: var(--muted); margin-top: 4px; }
+
+/* ── COPA DO BRASIL ── */
+.copa-section {
+  background: linear-gradient(135deg, #0d1f14 0%, #0a0a0f 60%);
+  border-top: 1px solid var(--border); border-bottom: 1px solid var(--border);
+  position: relative; overflow: hidden;
+}
+.copa-section::before {
+  content: ''; position: absolute; top: -120px; right: -120px;
+  width: 320px; height: 320px;
+  background: radial-gradient(circle, rgba(255,214,0,0.10) 0%, transparent 70%);
+  pointer-events: none;
+}
+.copa-banner {
+  display: flex; align-items: center; justify-content: space-between; gap: 24px;
+  background: var(--surface); border: 1px solid var(--border); border-radius: 14px;
+  padding: 28px 32px; margin-bottom: 28px; flex-wrap: wrap;
+}
+.copa-banner-left { display: flex; align-items: center; gap: 16px; }
+.copa-flag { font-size: 34px; line-height: 1; }
+.copa-banner h3 { font-size: 18px; font-weight: 700; margin-bottom: 4px; }
+.copa-banner p { font-size: 13px; color: var(--muted); }
+.copa-live {
+  display: inline-flex; align-items: center; gap: 7px;
+  background: rgba(236,93,106,0.1); border: 1px solid rgba(236,93,106,0.25);
+  color: var(--green); font-size: 12px; font-weight: 700;
+  letter-spacing: 0.06em; text-transform: uppercase;
+  padding: 7px 16px; border-radius: 100px; white-space: nowrap;
+}
+.copa-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 16px; }
+.copa-card {
+  background: var(--surface); border: 1px solid var(--border); border-radius: 12px;
+  padding: 24px; transition: border-color 0.2s;
+}
+.copa-card:hover { border-color: rgba(255,214,0,0.3); }
+.copa-card-icon { font-size: 24px; margin-bottom: 12px; display: block; }
+.copa-card h4 { font-size: 14px; font-weight: 600; margin-bottom: 6px; }
+.copa-card p { font-size: 13px; color: var(--muted); line-height: 1.6; }
+.copa-card .copa-tag {
+  display: inline-block; margin-top: 12px; font-size: 11px; font-weight: 700;
+  letter-spacing: 0.05em; text-transform: uppercase;
+  color: var(--yellow); background: rgba(255,214,0,0.08);
+  padding: 3px 10px; border-radius: 100px;
+}
+
+/* ── STATUS ── */
+.status-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 12px; }
+.status-card { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 20px; display: flex; align-items: center; gap: 12px; }
+.status-dot { width: 8px; height: 8px; background: var(--green); border-radius: 50%; flex-shrink: 0; box-shadow: 0 0 8px var(--green); animation: pulse 2s infinite; }
+.status-name { font-size: 13px; font-weight: 600; margin-bottom: 2px; }
+.status-ok { font-size: 11px; color: var(--green); font-family: 'JetBrains Mono', monospace; }
+
+/* ── FAQ ── */
+.faq-list { display: flex; flex-direction: column; gap: 10px; }
+.faq-item {
+  background: var(--surface); border: 1px solid var(--border); border-radius: 10px;
+  overflow: hidden; transition: border-color 0.2s;
+}
+.faq-item.open { border-color: rgba(236,93,106,0.4); }
+.faq-q {
+  width: 100%; background: none; border: none; cursor: pointer;
+  display: flex; align-items: center; gap: 16px;
+  padding: 18px 22px; text-align: left; font-family: inherit;
+  color: var(--text); font-weight: 600; font-size: 15px;
+}
+.faq-num {
+  font-family: 'JetBrains Mono', monospace; font-size: 12px; font-weight: 700;
+  color: var(--green); opacity: 0.7; flex-shrink: 0; letter-spacing: 0.05em;
+}
+.faq-q-text { flex: 1; }
+.faq-toggle {
+  font-family: 'JetBrains Mono', monospace; font-size: 18px; font-weight: 400;
+  color: var(--green); flex-shrink: 0; width: 22px; height: 22px;
+  display: flex; align-items: center; justify-content: center;
+  border: 1px solid rgba(236,93,106,0.3); border-radius: 6px;
+  transition: transform 0.25s ease;
+}
+.faq-item.open .faq-toggle { transform: rotate(45deg); }
+.faq-a {
+  max-height: 0; overflow: hidden; transition: max-height 0.25s ease;
+}
+.faq-a-inner {
+  padding: 0 22px 20px 54px; font-size: 14px; color: var(--muted); line-height: 1.6;
+}
+
+/* ── CTA ── */
+.cta-section { background: var(--surface); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); padding: 80px 24px; text-align: center; }
+.cta-section h2 { font-size: clamp(26px, 4vw, 38px); font-weight: 700; letter-spacing: -1px; margin-bottom: 12px; }
+.cta-section p { color: var(--muted); margin-bottom: 32px; font-size: 15px; }
+.cta-row { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+
+/* ── FOOTER ── */
+footer { padding: 40px 24px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 16px; max-width: 1100px; margin: 0 auto; }
+.footer-logo { font-family: 'JetBrains Mono', monospace; font-weight: 700; color: var(--green); font-size: 16px; }
+.footer-logo span { color: var(--yellow); }
+.footer-links { display: flex; gap: 24px; list-style: none; }
+.footer-links a { color: var(--muted); text-decoration: none; font-size: 13px; transition: color 0.2s; }
+.footer-links a:hover { color: var(--text); }
+.footer-copy { color: var(--muted); font-size: 12px; }
+
+/* ── RESPONSIVE ── */
+@media (max-width: 900px) {
+  nav { padding: 0 20px; }
+  .stats { grid-template-columns: repeat(2,1fr); }
+  .stat-item:nth-child(2) { border-right: none; }
+  .plans-grid, .plans-row2, .plans-row3 { grid-template-columns: 1fr; }
+  .diff-grid { grid-template-columns: 1fr 1fr; }
+  .copa-grid { grid-template-columns: 1fr 1fr; }
+  .status-grid { grid-template-columns: 1fr 1fr; }
+  .reviews-grid { grid-template-columns: 1fr; }
+}
+@media (max-width: 600px) {
+  .diff-grid { grid-template-columns: 1fr; }
+  .copa-grid { grid-template-columns: 1fr; }
+  .status-grid { grid-template-columns: 1fr; }
+  .stat-item { border-right: none; border-bottom: 1px solid var(--border); }
+  footer { flex-direction: column; align-items: flex-start; }
+  .reviews-summary { flex-direction: column; align-items: flex-start; gap: 12px; }
+  .copa-banner { flex-direction: column; align-items: flex-start; }
+}
+
+
+
+/* ── HERO COM PLAYER NO FUNDO ── */
+.hero {
+  min-height: 100vh;
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  justify-content: center !important;
+  text-align: center !important;
+  padding: 120px 24px 80px !important;
+  position: relative;
+  overflow: hidden;
+  max-width: 100% !important;
+  margin: 0 !important;
+  gap: 0 !important;
+}
+.hero::before {
+  content: '';
+  position: absolute; top: -200px; left: 50%;
+  transform: translateX(-50%); width: 700px; height: 700px;
+  background: radial-gradient(circle, rgba(236,93,106,0.08) 0%, transparent 70%);
+  pointer-events: none;
+  z-index: 0;
+}
+/* Player no fundo */
+.hero-player-wrap {
+  position: absolute !important;
+  width: auto !important;
+  height: 100% !important;
+  max-height: 95vh;
+  bottom: 0; left: 50%;
+  transform: translateX(-50%);
+  z-index: 0;
+  pointer-events: none;
+  display: flex !important;
+  align-items: flex-end;
+  justify-content: center;
+  margin: 0 !important;
+}
+.hero-player-frame {
+  height: 100%;
+  display: flex;
+  align-items: flex-end;
+}
+.hero-player-img {
+  height: 100%;
+  width: auto;
+  object-fit: contain;
+  object-position: center bottom;
+  opacity: 0.18;
+  filter: brightness(1.1);
+  animation: playerFloat 6s ease-in-out infinite !important;
+  mix-blend-mode: normal !important;
+}
+/* Fade nas bordas do player */
+.hero-player-frame::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: 
+    linear-gradient(to bottom, var(--bg) 0%, transparent 20%, transparent 70%, var(--bg) 100%),
+    linear-gradient(to right, var(--bg) 0%, transparent 20%, transparent 80%, var(--bg) 100%);
+  pointer-events: none;
+}
+/* Glow sutil */
+.hero-player-glow {
+  display: none !important;
+}
+/* Conteúdo na frente */
+.hero-content {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  max-width: 600px;
+}
+.hero p { max-width: 480px; }
+.hero-actions { justify-content: center !important; }
+
+/* Remover linha separadora */
+.hero-player-wrap::before { display: none !important; }
+
+@media (max-width: 960px) {
+  .hero {
+    min-height: auto !important;
+    flex-direction: column !important;
+    padding: 100px 24px 40px !important;
+  }
+  .hero-player-img { opacity: 0.12; }
+}
+
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a class="brand" href="#">
+    <span class="brand-mark">
+      <svg viewBox="0 0 24 24" fill="none" stroke="#06140b" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M13 2 4 14h6l-1 8 9-12h-6l1-8z" fill="#06140b" stroke="none"/>
+      </svg>
+    </span>
+    <span class="brand-name"><b>Merlin Hosting</b><span class="brand-sub">SA-MP / Open.MP</span></span>
+  </a>
+
+  <button class="menu-toggle" id="menuToggle" onclick="toggleMenu()">
+    <span class="bars"><span></span><span></span><span></span></span>
+    Menu
+  </button>
+</nav>
+
+<div class="menu-overlay" id="menuOverlay" onclick="closeMenu()"></div>
+<div class="menu-panel" id="menuPanel">
+  <div class="menu-section-label">Pedidos</div>
+  <a class="menu-link" href="#categorias" onclick="showCat('samp'); closeMenu();">
+    <span class="ml-text"><span class="ml-name">Host SA-MP</span><span class="ml-desc">Hospedagem dedicada para servidores</span></span>
+    <span class="ml-badge available">Disponível</span>
+  </a>
+  <a class="menu-link" href="#categorias" onclick="showCat('revendas'); closeMenu();">
+    <span class="ml-text"><span class="ml-name">Revendas</span><span class="ml-desc">Revenda nossos planos e lucre</span></span>
+    <span class="ml-badge available">Em Andamento</span>
+  </a>
+  <a class="menu-link" href="#categorias" onclick="showCat('script'); closeMenu();">
+    <span class="ml-text"><span class="ml-name">Serviço Script</span><span class="ml-desc">Edição via Discord</span></span>
+    <span class="ml-badge available">Em Andamento</span>
+  </a>
+  <a class="menu-link" href="#categorias" onclick="showCat('gamemodes'); closeMenu();">
+    <span class="ml-text"><span class="ml-name">Game Modes</span><span class="ml-desc">Modos de jogo prontos para uso</span></span>
+    <span class="ml-badge available">Disponível</span>
+  </a>
+
+  <div class="menu-divider"></div>
+  <div class="menu-section-label">Contato</div>
+  <a class="menu-link" href="https://wa.me/5561996070413" target="_blank" rel="noopener noreferrer">
+    <span class="ml-icon">💬</span>
+    <span class="ml-text"><span class="ml-name">WhatsApp</span><span class="ml-desc">Fale direto com o suporte</span></span>
+    <span class="ml-badge available">Online</span>
+  </a>
+  <a class="menu-link" href="https://discord.gg/QVB6YAHKGq" target="_blank" rel="noopener noreferrer">
+    <span class="ml-icon">🕹️</span>
+    <span class="ml-text"><span class="ml-name">Discord</span><span class="ml-desc">Comunidade e atualizações</span></span>
+    <span class="ml-badge available">Online</span>
+  </a>
+</div>
+
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-content">
+    <div class="hero-badge"><span class="dot"></span> Hospedagem SA-MP &amp; Open.MP &bull; Brasil</div>
+    <h1>Seu servidor<br><em>no ar em minutos.</em></h1>
+    <p>Planos simples, preços justos e suporte de verdade. Infraestrutura dedicada para SA-MP e Open.MP com baixa latência no Brasil.</p>
+    <div class="hero-actions">
+      <a href="#categorias" class="btn-primary">Ver planos</a>
+      <a href="https://discord.gg/QVB6YAHKGq" class="btn-secondary">Discord</a>
+    </div>
+  </div>
+
+  <div class="hero-player-wrap">
+    <div class="hero-player-glow"></div>
+    
+    <div class="hero-player-frame">
+      <img class="hero-player-img" src="player-bg.webp" alt="" loading="eager" decoding="async">
+      
+    </div>
+    </div>
+</section>
+
+<!-- CATEGORIAS -->
+<section id="categorias" class="section" style="padding-top:32px;">
+  <div class="section-label">Produtos</div>
+  <h2 class="section-title">Nossos serviços</h2>
+  <p class="section-sub" style="margin-bottom:28px;">Escolha o produto que você precisa.</p>
+
+  <div class="cat-tabs">
+    <div class="cat-tab active" onclick="showCat('samp')">Host SA-MP <span class="ct-badge active-tag">Disponível</span></div>
+    <div class="cat-tab" onclick="showCat('revendas')">Revendas <span class="ct-badge active-tag">Em Andamento</span></div>
+    <div class="cat-tab" onclick="showCat('script')">Serviço Script <span class="ct-badge active-tag">Em Andamento</span></div>
+    <div class="cat-tab" onclick="showCat('gamemodes')">Game Modes <span class="ct-badge active-tag">Disponível</span></div>
+  </div>
+
+  <!-- HOST SAMP -->
+  <div id="cat-samp" class="cat-panel visible">
+    <div class="plans-grid">
+      <div class="plan-card">
+        <div class="plan-slots">100 Slots</div>
+        <div class="plan-price"><sup>R$</sup>7</div>
+        <div class="plan-period">por mês</div>
+        <ul class="plan-features">
+          <li>Painel SAH</li><li>Linux .so</li><li>Ping Brasileiro</li><li>FTP incluso</li><li>MySQL incluso</li><li>Anti-DDoS</li><li>Oferecemos Suporte</li>
+        </ul>
+        <button class="plan-btn" onclick="openModal('100 Slots','R$7/mês')">Adquirir</button>
+      </div>
+      <div class="plan-card">
+        <div class="plan-slots">150 Slots</div>
+        <div class="plan-price"><sup>R$</sup>11</div>
+        <div class="plan-period">por mês</div>
+        <ul class="plan-features">
+          <li>Painel SAH</li><li>Linux .so</li><li>Ping Brasileiro</li><li>FTP incluso</li><li>MySQL incluso</li><li>Anti-DDoS</li><li>Oferecemos Suporte</li>
+        </ul>
+        <button class="plan-btn" onclick="openModal('150 Slots','R$11/mês')">Adquirir</button>
+      </div>
+      <div class="plan-card">
+        <div class="plan-slots">200 Slots</div>
+        <div class="plan-price"><sup>R$</sup>15</div>
+        <div class="plan-period">por mês</div>
+        <ul class="plan-features">
+          <li>Painel SAH</li><li>Linux .so</li><li>Ping Brasileiro</li><li>FTP incluso</li><li>MySQL incluso</li><li>Anti-DDoS</li><li>Oferecemos Suporte</li>
+        </ul>
+        <button class="plan-btn" onclick="openModal('200 Slots','R$15/mês')">Adquirir</button>
+      </div>
+    </div>
+
+    <div class="plans-row2">
+      <div class="plan-card featured">
+        <div class="plan-tag">Mais vendido</div>
+        <div class="plan-slots">250 Slots</div>
+        <div class="plan-price"><sup>R$</sup>19</div>
+        <div class="plan-period">por mês</div>
+        <ul class="plan-features">
+          <li>Painel SAH</li><li>Linux .so</li><li>Ping Brasileiro</li><li>FTP incluso</li><li>MySQL incluso</li><li>Anti-DDoS</li><li>Oferecemos Suporte</li>
+        </ul>
+        <button class="plan-btn" onclick="openModal('250 Slots','R$19/mês')">Adquirir</button>
+      </div>
+      <div class="plan-card">
+        <div class="plan-slots">300 Slots</div>
+        <div class="plan-price"><sup>R$</sup>25</div>
+        <div class="plan-period">por mês</div>
+        <ul class="plan-features">
+          <li>Painel SAH</li><li>Linux .so</li><li>Ping Brasileiro</li><li>FTP incluso</li><li>MySQL incluso</li><li>Anti-DDoS</li><li>Oferecemos Suporte</li>
+        </ul>
+        <button class="plan-btn" onclick="openModal('300 Slots','R$25/mês')">Adquirir</button>
+      </div>
+    </div>
+
+    <div class="plans-row3">
+      <div class="plan-card">
+        <div class="plan-slots">400 Slots</div>
+        <div class="plan-price"><sup>R$</sup>33</div>
+        <div class="plan-period">por mês</div>
+        <ul class="plan-features">
+          <li>Painel SAH</li><li>Linux .so</li><li>Ping Brasileiro</li><li>FTP incluso</li><li>MySQL incluso</li><li>Anti-DDoS</li><li>Oferecemos Suporte</li>
+        </ul>
+        <button class="plan-btn" onclick="openModal('400 Slots','R$33/mês')">Adquirir</button>
+      </div>
+      <div class="plan-card">
+        <div class="plan-slots">500 Slots</div>
+        <div class="plan-price"><sup>R$</sup>42</div>
+        <div class="plan-period">por mês</div>
+        <ul class="plan-features">
+          <li>Painel SAH</li><li>Linux .so</li><li>Ping Brasileiro</li><li>FTP incluso</li><li>MySQL incluso</li><li>Anti-DDoS</li><li>Oferecemos Suporte</li>
+        </ul>
+        <button class="plan-btn" onclick="openModal('500 Slots','R$42/mês')">Adquirir</button>
+      </div>
+      <div class="plan-empty">
+        <p style="font-size:13px;color:var(--muted);">Precisa de mais slots?</p>
+        <a href="https://wa.me/5561996070413" class="plan-btn" style="width:auto;display:inline-block;padding:10px 24px;">Fale conosco</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- REVENDAS -->
+  <div id="cat-revendas" class="cat-panel">
+    <div class="soon-panel">
+      <h3>Programa de Revendas</h3>
+      <p>Estamos com o programa de Revendas em andamento. Em breve você vai poder revender nossos planos de hospedagem com margem própria e suporte completo. Cadastre seu interesse e seja avisado primeiro.</p>
+      <a href="https://wa.me/5561996070413?text=Tenho interesse no programa de Revendas da Merlin Hosting, pode me avisar quando estiver disponível?" class="soon-notify">🔔 Avisar quando lançar</a>
+    </div>
+  </div>
+
+  <!-- SCRIPT -->
+  <div id="cat-script" class="cat-panel">
+    <div class="soon-panel">
+      <h3>Serviço de Script</h3>
+      <p>Oferecemos serviço de Script direto no nosso Discord: trocamos nomes, textos e outros detalhes do seu game mode. Entre no nosso servidor e fale com a equipe.</p>
+      <a href="https://discord.gg/QVB6YAHKGq" class="soon-notify" target="_blank" rel="noopener noreferrer">Entrar no Discord</a>
+    </div>
+  </div>
+
+  <!-- GAME MODES -->
+  <div id="cat-gamemodes" class="cat-panel">
+    <div class="plans-grid">
+
+      <div class="plan-card featured">
+        <div class="plan-tag">Exclusivo</div>
+        <div class="plan-slots">jss.pwn</div>
+        <div class="plan-price"><sup>R$</sup>15</div>
+        <div class="plan-period">pagamento único</div>
+        <ul class="plan-features">
+          <li>Arquivo jss.pwn completo</li>
+          <li>Game mode Noway-RolePlay</li>
+          <li>Game mode nunca VAZADA.</li>
+          <li>Com isso você consegue editar a game mode do NoWay Roleplay, consegue trocar o nome e etc.</li>
+          <li>Oferecemos Serviço Script no nosso Discord, trocamos nomes etc.</li>
+          <li>Entrega imediata.</li>
+        </ul>
+        <button class="plan-btn" onclick="openModal('jss.pwn — Noway-RolePlay','R$15')">Adquirir</button>
+      </div>
+
+      <div class="plan-empty">
+        <p>Precisa de algo personalizado?</p>
+        <a href="https://wa.me/5561996070413" class="plan-btn" style="width:auto;display:inline-block;padding:10px 24px;">Fale conosco</a>
+      </div>
+
+    </div>
+  </div>
+
+</section>
+
+<!-- AVALIAÇÕES -->
+<section id="avaliacoes" class="section" style="padding-top:0;">
+  <div class="section-label">Avaliações</div>
+  <h2 class="section-title">O que os clientes dizem</h2>
+  <p class="section-sub">Opiniões reais de quem já usa a host.</p>
+
+  <div class="reviews-summary">
+    <div class="reviews-score">5.0</div>
+    <div class="reviews-right">
+      <div class="reviews-stars-big">★★★★★</div>
+      <div class="reviews-count">Baseado em 23 avaliações de clientes</div>
+    </div>
+  </div>
+
+  <div class="reviews-grid">
+    <div class="review-card">
+      <div class="review-stars">★★★★★</div>
+      <div class="review-text">"Serviço top, ativação foi na hora. Ping excelente para os players brasileiros. Já indiquei para vários amigos do meu servidor."</div>
+      <div class="review-author">
+        <div class="review-avatar">JV</div>
+        <div><div class="review-name">João Victor</div><div class="review-date">Cliente desde Abril 2026</div></div>
+      </div>
+    </div>
+    <div class="review-card">
+      <div class="review-stars">★★★★★</div>
+      <div class="review-text">"Suporte respondeu em menos de 10 minutos. Tive um problema com plugin e resolveram tudo na hora. Nunca vi atendimento tão rápido."</div>
+      <div class="review-author">
+        <div class="review-avatar">KL</div>
+        <div><div class="review-name">Kleber_Dev</div><div class="review-date">Cliente desde Março 2026</div></div>
+      </div>
+    </div>
+    <div class="review-card">
+      <div class="review-stars">★★★★★</div>
+      <div class="review-text">"Preço justo, uptime perfeito. Meu servidor ficou online 30 dias seguidos sem nenhuma queda. Melhor hospedagem de SA-MP que já usei."</div>
+      <div class="review-author">
+        <div class="review-avatar">FZ</div>
+        <div><div class="review-name">Felipe_Zika</div><div class="review-date">Cliente desde Fevereiro 2026</div></div>
+      </div>
+    </div>
+    <div class="review-card">
+      <div class="review-stars">★★★★★</div>
+      <div class="review-text">"Open.MP funcionando perfeitamente com todos os plugins. A migração do meu servidor foi simples e rápida com a ajuda do suporte."</div>
+      <div class="review-author">
+        <div class="review-avatar">GS</div>
+        <div><div class="review-name">Gabriel_Strikez</div><div class="review-date">Cliente desde Janeiro 2026</div></div>
+      </div>
+    </div>
+    <div class="review-card">
+      <div class="review-stars">★★★★★</div>
+      <div class="review-text">"Comecei com 100 slots e já upgradei para 250. Nunca tive problema nenhum. MySQL veio configurado pronto, só apontar no script."</div>
+      <div class="review-author">
+        <div class="review-avatar">VN</div>
+        <div><div class="review-name">Vinicius_NR</div><div class="review-date">Cliente desde Dezembro 2025</div></div>
+      </div>
+    </div>
+    <div class="review-card">
+      <div class="review-stars">★★★★★</div>
+      <div class="review-text">"Achei pelo Discord e decidi testar. Melhor decisão. Anti-DDoS bloqueou um ataque durante um evento e o server ficou estável o tempo todo."</div>
+      <div class="review-author">
+        <div class="review-avatar">DX</div>
+        <div><div class="review-name">DanX_Oficial</div><div class="review-date">Cliente desde Novembro 2025</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- DIFERENCIAIS -->
+<section id="diferenciais" class="section" style="padding-top:0;">
+  <div class="section-label">Recursos</div>
+  <h2 class="section-title">Por que escolher a Merlin?</h2>
+  <p class="section-sub">O essencial para seu servidor rodar sem dor de cabeça.</p>
+  <div class="diff-grid">
+    <div class="diff-card">
+      <div class="diff-top"><span class="diff-icon-box">⚡</span><span class="diff-idx">01</span></div>
+      <h3>Alta Performance</h3>
+      <p>Servidores rápidos e estáveis, otimizados para SA-MP e Open.MP.</p>
+    </div>
+    <div class="diff-card">
+      <div class="diff-top"><span class="diff-icon-box">🛡️</span><span class="diff-idx">02</span></div>
+      <h3>Anti-DDoS incluso</h3>
+      <p>Proteção ativa contra ataques em todos os planos, sem custo extra.</p>
+    </div>
+    <div class="diff-card">
+      <div class="diff-top"><span class="diff-icon-box">🇧🇷</span><span class="diff-idx">03</span></div>
+      <h3>Ping Brasileiro</h3>
+      <p>Infraestrutura no Brasil com 18ms de latência média para jogadores nacionais.</p>
+    </div>
+    <div class="diff-card">
+      <div class="diff-top"><span class="diff-icon-box">💾</span><span class="diff-idx">04</span></div>
+      <h3>MySQL & FTP</h3>
+      <p>Banco de dados e acesso FTP inclusos em todos os planos.</p>
+    </div>
+    <div class="diff-card">
+      <div class="diff-top"><span class="diff-icon-box">🖥️</span><span class="diff-idx">05</span></div>
+      <h3>SA-MP & Open.MP</h3>
+      <p>Compatibilidade total com SA-MP e Open.MP, incluindo plugins .so.</p>
+    </div>
+    <div class="diff-card">
+      <div class="diff-top"><span class="diff-icon-box">💬</span><span class="diff-idx">06</span></div>
+      <h3>Suporte 24h</h3>
+      <p>Atendimento pelo WhatsApp e Discord, sem robô — direto com a equipe.</p>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section id="faq" class="section" style="padding-top:0;">
+  <div class="section-label">FAQ</div>
+  <h2 class="section-title">Dúvidas frequentes</h2>
+  <p class="section-sub">O básico que você precisa saber antes de contratar.</p>
+  <div class="faq-list">
+    <div class="faq-item">
+      <button class="faq-q" onclick="toggleFaq(this)">
+        <span class="faq-num">01</span>
+        <span class="faq-q-text">Como faço para contratar?</span>
+        <span class="faq-toggle">+</span>
+      </button>
+      <div class="faq-a"><div class="faq-a-inner">Clique em "Adquirir" em qualquer plano, preencha as informações e o pedido vai direto pro nosso WhatsApp. Simples assim.</div></div>
+    </div>
+    <div class="faq-item">
+      <button class="faq-q" onclick="toggleFaq(this)">
+        <span class="faq-num">02</span>
+        <span class="faq-q-text">MySQL e FTP estão inclusos?</span>
+        <span class="faq-toggle">+</span>
+      </button>
+      <div class="faq-a"><div class="faq-a-inner">Sim, todos os planos já incluem MySQL e acesso FTP sem custo adicional.</div></div>
+    </div>
+    <div class="faq-item">
+      <button class="faq-q" onclick="toggleFaq(this)">
+        <span class="faq-num">03</span>
+        <span class="faq-q-text">O servidor funciona com Open.MP?</span>
+        <span class="faq-toggle">+</span>
+      </button>
+      <div class="faq-a"><div class="faq-a-inner">Sim, total compatibilidade com SA-MP e Open.MP, incluindo suporte a plugins .so do Linux.</div></div>
+    </div>
+    <div class="faq-item">
+      <button class="faq-q" onclick="toggleFaq(this)">
+        <span class="faq-num">04</span>
+        <span class="faq-q-text">Qual é a forma de pagamento?</span>
+        <span class="faq-toggle">+</span>
+      </button>
+      <div class="faq-a"><div class="faq-a-inner">Aceitamos PIX. O QR Code e o código copia e cola são gerados automaticamente ao finalizar o pedido.</div></div>
+    </div>
+    <div class="faq-item">
+      <button class="faq-q" onclick="toggleFaq(this)">
+        <span class="faq-num">05</span>
+        <span class="faq-q-text">Em quanto tempo meu servidor é ativado?</span>
+        <span class="faq-toggle">+</span>
+      </button>
+      <div class="faq-a"><div class="faq-a-inner">Após confirmação do pagamento, seu servidor é ativado em até 30 minutos pelo suporte.</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-section">
+  <h2>Pronto para colocar seu servidor no ar?</h2>
+  <p>Fale com a gente agora e ative seu plano hoje mesmo.</p>
+  <div class="cta-row">
+    <a href="https://wa.me/5561996070413" class="btn-whatsapp" target="_blank" rel="noopener noreferrer">
+      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.5 14.4c-.3-.1-1.7-.8-2-.9-.3-.1-.5-.1-.6.1-.2.3-.7.9-.9 1.1-.2.2-.3.2-.6.1-1.6-.7-2.6-1.4-3.7-3.2-.1-.2-.1-.4.1-.6l.5-.6c.1-.2.1-.3 0-.5-.1-.2-.7-1.7-1-2.3-.2-.5-.4-.4-.6-.4h-.5c-.2 0-.5.1-.7.3-.7.7-1.1 1.6-1.1 2.6 0 1.6 1.2 3.2 1.4 3.4.2.2 2 3 4.8 4.1 2.8 1.1 2.8.7 3.3.7.5-.1 1.7-.7 1.9-1.4.3-.6.3-1.2.2-1.3-.1-.1-.3-.2-.6-.2zM12 2C6.5 2 2 6.5 2 12c0 1.9.5 3.7 1.5 5.2L2 22l4.9-1.3c1.5.8 3.2 1.3 4.9 1.3 5.5 0 10-4.5 10-10S17.7 2 12 2z"/></svg>
+      Fale no WhatsApp — (61) 99607-0413
+    </a>
+    <a href="https://discord.gg/QVB6YAHKGq" class="btn-secondary">Entrar no Discord</a>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">MERLIN<span>.</span>HOSTING</div>
+  <ul class="footer-links">
+    <li><a href="https://wa.me/5561996070413">WhatsApp</a></li>
+    <li><a href="https://discord.gg/QVB6YAHKGq">Discord</a></li>
+    <li><a href="#categorias">Planos</a></li>
+    <li><a href="#avaliacoes">Avaliações</a></li>
+  </ul>
+  <div class="footer-copy">© 2026 Merlin Hosting</div>
+</footer>
+
+<!-- MODAL PEDIDO -->
+<div class="modal-overlay" id="modalOverlay" onclick="handleOverlayClick(event)">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal()">✕</button>
+    <h3>Finalizar pedido</h3>
+    <p class="modal-plan-info">Plano selecionado: <strong id="modalPlanName"></strong></p>
+
+    <div class="form-group">
+      <label>Usuário / ID do Discord</label>
+      <input type="text" id="fDiscord" placeholder="Ex: merlin ou merlin#1234" maxlength="40" oninput="updatePreview()">
+    </div>
+    <div class="form-group">
+      <label>Forma de pagamento</label>
+      <select id="fPagto" onchange="updatePreview()">
+        <option value="">Selecione...</option>
+        <option value="PIX">PIX</option>
+        <option value="Outro">Outro (combinar)</option>
+      </select>
+    </div>
+
+    <div class="wpp-preview" id="wppPreview">
+      <div class="wpp-preview-label">✉ Mensagem que será enviada</div>
+      <div id="wppText"></div>
+    </div>
+
+    <!-- PIX QR CODE -->
+    <div class="pix-box" id="pixBox">
+      <div class="pix-box-label">PIX — Pagamento instantâneo</div>
+      <div class="pix-qr-wrap">
+        <div id="pixQrContainer" style="width:200px;height:200px;"></div>
+      </div>
+      <div class="pix-value" id="pixValue"></div>
+
+      <!-- Copia e cola do código PIX completo com valor -->
+      <div style="margin:12px 0 4px;font-size:10px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:var(--green);">Código PIX (copia e cola)</div>
+      <div style="display:flex;gap:6px;align-items:stretch;">
+        <input id="pixCodigoInput" type="text" readonly
+          style="flex:1;background:#0a0a12;border:1px solid rgba(236,93,106,0.2);border-radius:8px;padding:9px 12px;color:var(--muted);font-family:'JetBrains Mono',monospace;font-size:10px;outline:none;cursor:text;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;"
+          value="Selecione PIX para gerar o código..." />
+        <button id="pixCopyBtn" onclick="copyPixCodigo()" style="background:rgba(236,93,106,0.08);border:1px solid rgba(236,93,106,0.25);color:var(--green);font-size:12px;font-weight:700;padding:9px 14px;border-radius:8px;cursor:pointer;white-space:nowrap;transition:background 0.2s;font-family:'Space Grotesk',sans-serif;flex-shrink:0;">
+          Copiar
+        </button>
+      </div>
+      <div class="pix-steps" style="margin-top:12px;">
+        <p><strong>1.</strong> Escaneie o QR ou copie o código acima</p>
+        <p><strong>2.</strong> Abra o banco → PIX → Copia e Cola</p>
+        <p><strong>3.</strong> Cole o código e confirme o valor</p>
+        <p><strong>4.</strong> Envie o comprovante pelo WhatsApp</p>
+      </div>
+    </div>
+
+    <div class="modal-actions">
+      <button class="btn-secondary" onclick="closeModal()">Cancelar</button>
+      <button class="btn-primary" onclick="enviarPedido()">📲 Enviar pelo WhatsApp</button>
+    </div>
+  </div>
+</div>
+
+<!-- QR Code gerado 100% local via qrcode.js (sem chamadas externas, sem CORS) -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js" integrity="sha512-CNgIRecGo7nphbeZ04Sc13ka07paqdeTu0WR1IM4kNcpmBAUSHSQX0FslNhTDadL4O5SAGapGt4FodqL8My0mA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script>
+
+// ── MENU ──
+function toggleMenu() {
+  document.getElementById('menuToggle').classList.toggle('open');
+  document.getElementById('menuPanel').classList.toggle('open');
+  document.getElementById('menuOverlay').classList.toggle('open');
+}
+function closeMenu() {
+  ['menuToggle','menuPanel','menuOverlay'].forEach(function(id){ document.getElementById(id).classList.remove('open'); });
+}
+
+// ── TABS ──
+function showCat(id) {
+  document.querySelectorAll('.cat-panel').forEach(function(p){ p.classList.remove('visible'); });
+  document.querySelectorAll('.cat-tab').forEach(function(t){ t.classList.remove('active'); });
+  document.getElementById('cat-' + id).classList.add('visible');
+  var idx = ['samp','revendas','script','gamemodes'].indexOf(id);
+  document.querySelectorAll('.cat-tab')[idx].classList.add('active');
+  document.getElementById('categorias').scrollIntoView({ behavior: 'smooth' });
+}
+
+// ── MODAL ──
+var currentPlan = '', currentPrice = '', currentPriceNum = 0;
+
+function openModal(plan, price) {
+  currentPlan = plan;
+  currentPrice = price;
+  var m = price.replace(',','.').match(/(\d+(?:\.\d+)?)/);
+  currentPriceNum = m ? parseFloat(m[1]) : 0;
+  document.getElementById('modalPlanName').textContent = plan + ' — ' + price;
+  ['fDiscord','fPagto'].forEach(function(id){
+    document.getElementById(id).value = '';
+    document.getElementById(id).style.borderColor = '';
+  });
+  document.getElementById('wppPreview').classList.remove('show');
+  document.getElementById('pixBox').style.display = 'none';
+  // limpa qr
+  document.getElementById('pixQrContainer').innerHTML = '';
+  document.getElementById('pixCodigoInput').value = 'Selecione PIX para gerar o código...';
+  document.getElementById('modalOverlay').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeModal() {
+  document.getElementById('modalOverlay').classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+function handleOverlayClick(e) {
+  if (e.target === document.getElementById('modalOverlay')) closeModal();
+}
+
+// ── PIX PAYLOAD (padrão EMV BCB) ──
+function gerarPixPayload(chave, valor) {
+  function tlv(id, v) { return id + String(v.length).padStart(2,'0') + v; }
+  var chaveFormatada = '+55' + chave;
+  var mai = tlv('26', tlv('00','BR.GOV.BCB.PIX') + tlv('01', chaveFormatada));
+  var adf = tlv('62', tlv('05','***'));
+  var vStr = valor.toFixed(2);
+  var body = tlv('00','01') + tlv('01','11') + mai
+           + tlv('52','0000') + tlv('53','986') + tlv('54', vStr)
+           + tlv('58','BR') + tlv('59','MERLINHOSTING') + tlv('60','BRASILIA')
+           + adf + '6304';
+  var crc = 0xFFFF;
+  for (var i = 0; i < body.length; i++) {
+    crc ^= body.charCodeAt(i) << 8;
+    for (var j = 0; j < 8; j++) crc = (crc & 0x8000) ? (crc << 1) ^ 0x1021 : crc << 1;
+    crc &= 0xFFFF;
+  }
+  return body + crc.toString(16).toUpperCase().padStart(4,'0');
+}
+
+// ── GERAR QR NO CANVAS ──
+var _qrInstance = null;
+function gerarQRCode(valor) {
+  var payload = gerarPixPayload('61996070413', valor);
+
+  // atualiza o campo copia e cola
+  document.getElementById('pixCodigoInput').value = payload;
+
+  var wrap = document.getElementById('pixQrContainer');
+  wrap.innerHTML = '';
+
+  if (typeof QRCode === 'undefined') {
+    wrap.innerHTML = '<p style="color:var(--muted);font-size:11px;padding:8px;">Não foi possível carregar o gerador de QR Code. Use o código Copia e Cola acima.</p>';
+    return;
+  }
+
+  // Limpa instância anterior e recria com qrcodejs (100% local, sem CORS)
+  _qrInstance = new QRCode(wrap, {
+    text: payload,
+    width: 200,
+    height: 200,
+    colorDark: '#000000',
+    colorLight: '#ffffff',
+    correctLevel: QRCode.CorrectLevel.M
+  });
+}
+
+// ── COPIAR CÓDIGO PIX ──
+function copyPixCodigo() {
+  var input = document.getElementById('pixCodigoInput');
+  var btn = document.getElementById('pixCopyBtn');
+  var val = input.value;
+  if (!val || val === 'Selecione PIX para gerar o código...') return;
+
+  var ok = function() {
+    btn.textContent = '✓ Copiado!';
+    btn.style.background = 'var(--green)';
+    btn.style.color = '#000';
+    setTimeout(function() {
+      btn.textContent = 'Copiar';
+      btn.style.background = '';
+      btn.style.color = '';
+    }, 2500);
+  };
+
+  if (navigator.clipboard) {
+    navigator.clipboard.writeText(val).then(ok).catch(function(){ fbCopy(val, ok); });
+  } else {
+    fbCopy(val, ok);
+  }
+}
+
+function fbCopy(text, cb) {
+  var ta = document.createElement('textarea');
+  ta.value = text;
+  ta.style.cssText = 'position:fixed;top:-999px;left:-999px;opacity:0;';
+  document.body.appendChild(ta);
+  ta.focus(); ta.select();
+  try { document.execCommand('copy'); cb(); } catch(e){}
+  document.body.removeChild(ta);
+}
+
+// ── PREVIEW ──
+function updatePreview() {
+  var discord = document.getElementById('fDiscord').value.trim();
+  var pagto   = document.getElementById('fPagto').value;
+
+  if (discord) document.getElementById('fDiscord').style.borderColor = '';
+  if (pagto)   document.getElementById('fPagto').style.borderColor = '';
+
+  if (!discord && !pagto) {
+    document.getElementById('wppPreview').classList.remove('show');
+    document.getElementById('pixBox').style.display = 'none';
+    return;
+  }
+
+  var msg = '🎮 *Pedido — Merlin Hosting*\n━━━━━━━━━━━━━━━\n📦 Plano: *' + currentPlan + '*\n💰 Valor: *' + currentPrice + '*';
+  if (discord) msg += '\n🎙️ Discord: ' + discord;
+  if (pagto)   msg += '\n💳 Pagamento: ' + pagto;
+  msg += '\n━━━━━━━━━━━━━━━\nQuero confirmar meu pedido!';
+
+  document.getElementById('wppText').textContent = msg;
+  document.getElementById('wppPreview').classList.add('show');
+
+  if (pagto === 'PIX' && currentPriceNum > 0) {
+    document.getElementById('pixValue').textContent = 'R$ ' + currentPriceNum.toFixed(2).replace('.',',');
+    document.getElementById('pixBox').style.display = 'block';
+    gerarQRCode(currentPriceNum);
+  } else {
+    document.getElementById('pixBox').style.display = 'none';
+  }
+}
+
+// ── ENVIAR ──
+function enviarPedido() {
+  var discord = document.getElementById('fDiscord').value.trim();
+  var pagto   = document.getElementById('fPagto').value;
+  var ok = true;
+  if (!discord) { document.getElementById('fDiscord').style.borderColor='#ff4444'; ok=false; }
+  if (!pagto)   { document.getElementById('fPagto').style.borderColor='#ff4444';   ok=false; }
+  if (!ok) return;
+
+  var msg = '🎮 *Pedido — Merlin Hosting*\n━━━━━━━━━━━━━━━\n📦 Plano: *' + currentPlan + '*\n💰 Valor: *' + currentPrice + '*\n🎙️ Discord: ' + discord + '\n💳 Pagamento: ' + pagto;
+  msg += '\n━━━━━━━━━━━━━━━\n🚀 Pagamento feito, comprovante a caminho! Bora ativar meu servidor.';
+  window.open('https://wa.me/5561996070413?text=' + encodeURIComponent(msg), '_blank', 'noopener,noreferrer');
+  closeModal();
+}
+
+// ── FAQ ACCORDION ──
+function toggleFaq(btn) {
+  var item = btn.closest('.faq-item');
+  var answer = item.querySelector('.faq-a');
+  var isOpen = item.classList.contains('open');
+
+  // fecha qualquer outro item aberto
+  document.querySelectorAll('.faq-item.open').forEach(function(other){
+    if (other !== item) {
+      other.classList.remove('open');
+      other.querySelector('.faq-a').style.maxHeight = null;
+    }
+  });
+
+  if (isOpen) {
+    item.classList.remove('open');
+    answer.style.maxHeight = null;
+  } else {
+    item.classList.add('open');
+    answer.style.maxHeight = answer.scrollHeight + 'px';
+  }
+}
+
+document.addEventListener('keydown', function(e){ if(e.key==='Escape'){closeModal();closeMenu();} });
+</script>
+
+</body>
+</html>
